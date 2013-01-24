@@ -12,6 +12,17 @@ class MoviesController < ApplicationController
 	else
 	    	@movies = Movie.all  
 	end
+	
+	if (params[:id] == "title")
+		@movi = 'hilite'
+		@dati = ''
+	elsif (params[:id] == "release_date")
+		@movi = ''
+		@dati = 'hilite'
+	else 	
+		@movi = ''
+		@dati = ''
+	end
 end
 
   def new
