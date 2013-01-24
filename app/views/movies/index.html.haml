@@ -4,9 +4,9 @@
 %table#movies
   %thead
     %tr
-      %th= link_to 'Movie List', :controller => "movies", :action => "index", :id => :title
+      %th= link_to('Movie List', {:controller => "movies", :action => "index", :id => :title}, :id=>'title_header')
       %th Rating
-      %th= link_to 'Release Date', :controller => "movies", :action => "index", :id => :release_date 
+      %th= link_to('Release Date', {:controller => "movies", :action => "index", :id => :release_date}, :id=>'release_date_header') 
       %th More Info
   %tbody
     - @movies.each do |movie|
