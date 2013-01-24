@@ -35,6 +35,11 @@ class MoviesController < ApplicationController
 		params[:ratings].keys.each do |rating|
 			@checkedratings[rating] = true
 		end
+		session[:checkedratings] = @checkedratings	
+
+	elsif session[:checkedratings]
+		@checkedratings	 = session[:checkedratings]
+
 	else
 		@all_ratings.each do |rating|
 			@checkedratings[rating] = true
