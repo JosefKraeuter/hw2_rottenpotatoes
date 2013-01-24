@@ -7,19 +7,36 @@ class MoviesController < ApplicationController
   end
 
   def index
+
 	
 	@all_ratings = Movie.getratings
+	
 
 	if params[:id]
-		@movies = Movie.order("#{params[:id]} ASC").all
-	else
-	    	@movies = Movie.all  
+		session[:id] = params[:id]
 	end
+
+	if params[:ratings]
+		session[:ratings] = params[:ratings]
+	end
+
+	if session[:id] and session[:ratings]
+		@movies = Movie.order("#{session[:id]} ASC").where(:rating => session[:ratings].keys)
+	elsif session[:id] 
+		@movies = Movie.order("#{session[:id]} ASC").all
+	elsif session[:ratings]
+	    	
+		@movies = Movie.where(:rating => session[:ratings].keys)
+	else
+		@movies = Movie.all  
+	end
+
 	
-	if (params[:id] == "title")
+
+	if (session[:id] == "title")
 		@movi = 'hilite'
 		@dati = ''
-	elsif (params[:id] == "release_date")
+	elsif (session[:id] == "release_date")
 		@movi = ''
 		@dati = 'hilite'
 	else 	
