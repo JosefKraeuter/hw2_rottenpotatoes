@@ -7,6 +7,9 @@ class MoviesController < ApplicationController
   end
 
   def index
+	
+	@all_ratings = Movie.getratings
+
 	if params[:id]
 		@movies = Movie.order("#{params[:id]} ASC").all
 	else
