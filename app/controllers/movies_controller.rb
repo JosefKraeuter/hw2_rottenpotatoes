@@ -7,8 +7,12 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
-  end
+	if params[:id]
+		@movies = Movie.order("#{params[:id]} ASC").all
+	else
+	    	@movies = Movie.all  
+	end
+end
 
   def new
     # default: render 'new' template
