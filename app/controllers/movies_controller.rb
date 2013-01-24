@@ -11,6 +11,8 @@ class MoviesController < ApplicationController
 	
 	@all_ratings = Movie.getratings
 	
+	
+
 
 	if params[:id]
 		session[:id] = params[:id]
@@ -19,6 +21,26 @@ class MoviesController < ApplicationController
 	if params[:ratings]
 		session[:ratings] = params[:ratings]
 	end
+
+	@checkedratings = {}
+
+	
+
+	if params[:ratings]
+	
+		@all_ratings.each do |rating|
+			@checkedratings[rating] = false
+		end		
+
+		params[:ratings].keys.each do |rating|
+			@checkedratings[rating] = true
+		end
+	else
+		@all_ratings.each do |rating|
+			@checkedratings[rating] = true
+		end
+	end	
+
 
 	if session[:id] and session[:ratings]
 		@movies = Movie.order("#{session[:id]} ASC").where(:rating => session[:ratings].keys)
