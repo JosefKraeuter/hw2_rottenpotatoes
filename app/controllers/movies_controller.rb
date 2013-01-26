@@ -14,13 +14,17 @@ class MoviesController < ApplicationController
 	
 
 
-	if params[:id]
-		session[:id] = params[:id]
+	if params[:filter]
+		session[:filter] = params[:filter]
 	end
 
 	if params[:ratings]
 		session[:ratings] = params[:ratings]
 	end
+
+	unless (params[:filter] and params[:ratings])
+		redirect_to movies_url(:action =>"index",:filter => session[:filter], :ratings => session[:ratings])
+	end 
 
 	@checkedratings = {}
 
@@ -47,10 +51,10 @@ class MoviesController < ApplicationController
 	end	
 
 
-	if session[:id] and session[:ratings]
-		@movies = Movie.order("#{session[:id]} ASC").where(:rating => session[:ratings].keys)
-	elsif session[:id] 
-		@movies = Movie.order("#{session[:id]} ASC").all
+	if session[:filter] and session[:ratings]
+		@movies = Movie.order("#{session[:filter]} ASC").where(:rating => session[:ratings].keys)
+	elsif session[:filter] 
+		@movies = Movie.order("#{session[:filter]} ASC").all
 	elsif session[:ratings]
 	    	
 		@movies = Movie.where(:rating => session[:ratings].keys)
@@ -60,10 +64,10 @@ class MoviesController < ApplicationController
 
 	
 
-	if (session[:id] == "title")
+	if (session[:filter] == "title")
 		@movi = 'hilite'
 		@dati = ''
-	elsif (session[:id] == "release_date")
+	elsif (session[:filter] == "release_date")
 		@movi = ''
 		@dati = 'hilite'
 	else 	
@@ -83,21 +87,22 @@ end
   end
 
   def edit
-    @movie = Movie.find params[:id]
+    @movie = Movie.find params[:filter]
   end
 
   def update
-    @movie = Movie.find params[:id]
+    @movie = Movie.find params[:filter]
     @movie.update_attributes!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully updated."
     redirect_to movie_path(@movie)
   end
 
   def destroy
-    @movie = Movie.find(params[:id])
+    @movie = Movie.find(params[:filter])
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
 
 end
+

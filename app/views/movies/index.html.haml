@@ -12,9 +12,9 @@
 %table#movies
   %thead
     %tr
-      %th{:class => @movi }= link_to('Movie List', {:controller => "movies", :action => "index", :id => :title}, :id=>'title_header')
+      %th{:class => @movi }= link_to('Movie List', {:controller => "movies", :action => "index", :filter => :title}, :id=>'title_header')
       %th Rating
-      %th{:class => @dati }= link_to('Release Date', {:controller => "movies", :action => "index", :id => :release_date}, :id=>'release_date_header') 
+      %th{:class => @dati }= link_to('Release Date', {:controller => "movies", :action => "index", :filter => :release_date}, :id=>'release_date_header') 
       %th More Info
   %tbody
     - @movies.each do |movie|
