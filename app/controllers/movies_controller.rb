@@ -22,8 +22,17 @@ class MoviesController < ApplicationController
 		session[:ratings] = params[:ratings]
 	end
 
-	unless (params[:filter] and params[:ratings])
-		redirect_to movies_url(:action =>"index",:filter => session[:filter], :ratings => session[:ratings])
+	unless (params[:filter] and params[:ratings]) 
+		if session[:ratings] and session[:filter]
+				redirect_to movies_url(:action =>"index",:filter => session[:filter], :ratings => session[:ratings])
+		
+		elsif not params[:ratings] and session[:ratings] 
+				redirect_to movies_url(:action =>"index",:ratings => session[:ratings])
+		
+		elsif not params[:filter] and session[:filter] 
+				redirect_to movies_url(:action =>"index",:filter => session[:filter])
+		end
+		
 	end 
 
 	@checkedratings = {}
